@@ -5,16 +5,14 @@
 // Prerequisites for running this pipeline script:
 // - Jenkins slave with Windows and Visual Studio 2017 Pro
 // - GitHub branch source plugin
-// - Approve methods, used in checkout scm (Manage Jenkins -> In-process Script Approval)
 // - MSBuild plugin; configure tool with name 'msbuild_2017' (Manage Jenkins -> Global Tool Configuration)
 // - SonarQube Scanner plugin; configure server with name 'SonarQube Server' (Manage Jenkins -> Configure System)
 // - Configure SonarQube Scanner for MSBuild tool with name 'SonarScannerMsBuild' (Manage Jenkins -> Global Tool Configuration)
-// - ? xUnit plugin - for importing test results from MsTest format
 // - ? HTTP Request Plugin/Slack
 // - Credentials:
 //		SonarQube-github-apikey - authentication token for SonarQube and its GitHub plugin (required permissions: repo, read:public_key)
-//		Slack-webhookin-key - authentication token to post on Slack
-//		Octopus-Apikey - authentication token to push packages and create releases in Octopus
+//		Slack-webhookIn-key - authentication token to post on Slack
+//		Octopus-apikey - authentication token to push packages and create releases in Octopus
 // Values to change in script:
 //	Path to MsTest.exe
 // 	Octopus server URL
@@ -100,7 +98,7 @@ node() {
 			def releaseNotesMdFile = "$env.WORKSPACE/Auto-ReleaseNotes.md"
 			generateMarkdownReleaseNotes(buildVersion, releaseNotesMdFile)
 
-			withCredentials([string(credentialsId: 'Octopus-Apikey', variable: 'octoApiKey')]) {
+			withCredentials([string(credentialsId: 'Octopus-apikey', variable: 'octoApiKey')]) {
 				def octopusServerURL = 'http://jp-demo.westeurope.cloudapp.azure.com'
 				
 				echo 'Publish packages to Octopus'

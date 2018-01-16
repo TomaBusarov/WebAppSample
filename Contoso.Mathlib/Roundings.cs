@@ -14,15 +14,6 @@ namespace Contoso.Mathlib
             return (int)(d + 1);
         }
 
-        public static void DummyMethod()
-        {
-            bool b = true;
-            if (b)
-            {
-                Console.WriteLine("djksfhjskdfh");
-            }
-        }
-
     }
 
 }

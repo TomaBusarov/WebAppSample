@@ -66,9 +66,6 @@ node() {
 
 		echo 'Publish test results'
 		step([$class: 'MSTestPublisher', testResultsFile:"TestResults.*.trx", keepLongStdio: true])
-		//step([$class: 'XUnitBuilder', 
-		//	thresholds: [[$class: 'FailedThreshold', unstableThreshold: '0']], 
-		//	tools: [[$class: 'MSTestJunitHudsonTestType', pattern: 'TestResults.*.trx']]])		
 	}
 
 	currentBuild.description = 'Binaries built and tested'
@@ -116,7 +113,7 @@ node() {
 		}
 
 		stage('Send Notifications') {
-			//sendO365Notification(true, buildVersion, '')
+			sendTeamNotification("Release $buildVersion created successfuly.")
 		}
 	}
 	}catch (ex) {
@@ -124,7 +121,7 @@ node() {
 		if (onReleaseBranch()) {
 			// notify in case of error
 			echo "Error in build job on release branch. Details: $errorText"
-			//sendO365Notification(false, '', errorText)
+			sendTeamNotification("Error in release build job! Details: ${errorText}.")
 		}
 		throw ex
 	}
@@ -189,3 +186,7 @@ $changes
 	writeFile encoding: 'utf-8', file: fileAndPath, text: fileContents
 }
 
+def sendTeamNotification(text)
+{
+	
+}

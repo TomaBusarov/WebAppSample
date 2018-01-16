@@ -67,7 +67,7 @@ node() {
 		bat "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\Common7\\IDE\\MSTest.exe\" /resultsfile:TestResults.Contoso.Mathlib.Tests.trx /testcontainer:.\\Contoso.Mathlib.Tests\\bin\\Release\\Contoso.Mathlib.Tests.dll"
 
 		echo 'Publish test results'
-		step([$class: 'MSTestPublisher', testResultsFile:"TestResults.*.trx", keepLongStdio: true)
+		step([$class: 'MSTestPublisher', testResultsFile:"TestResults.*.trx", keepLongStdio: true])
 		//step([$class: 'XUnitBuilder', 
 		//	thresholds: [[$class: 'FailedThreshold', unstableThreshold: '0']], 
 		//	tools: [[$class: 'MSTestJunitHudsonTestType', pattern: 'TestResults.*.trx']]])		

@@ -22,24 +22,17 @@
 
 // Helper to distinguish between run for Pull Requests or release (package and publish)
 def onReleaseBranch() {
-	return env.BRANCH_NAME == 'master'
+	return env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'add-pipeline'
 }
 
 node() {
 	try { // catch errors in pipeline, so they can be reported to external tools
 
 	stage('Get Source Code') {
-		//checkout([
-		//$class: 'GitSCM',
-		//branches: scm.branches,
-		//extensions: scm.extensions + [[$class: 'CleanCheckout']],
-		//userRemoteConfigs: scm.userRemoteConfigs
-		//])
 		checkout scm
 		echo "Retrieved $env.BRANCH_NAME in workspace: $env.WORKSPACE"
 	}
 
-	bat 'set'
 	// in-script vars
 	def buildVersion = '1.0.${env.BUILD_ID}'
 	def commonReleaseBuildParams = "/p:Configuration=Release;Platform=AnyCPU"
@@ -74,7 +67,7 @@ node() {
 		bat "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\Common7\\IDE\\MSTest.exe\" /resultsfile:TestResults.Contoso.Mathlib.Tests.trx /testcontainer:.\\Contoso.Mathlib.Tests\\bin\\Release\\Contoso.Mathlib.Tests.dll"
 
 		echo 'Publish test results'
-		mstest testResultsFile:"TestResults.*.trx", keepLongStdio: true
+		step([$class: 'MSTestPublisher', testResultsFile:"TestResults.*.trx", keepLongStdio: true)
 		//step([$class: 'XUnitBuilder', 
 		//	thresholds: [[$class: 'FailedThreshold', unstableThreshold: '0']], 
 		//	tools: [[$class: 'MSTestJunitHudsonTestType', pattern: 'TestResults.*.trx']]])		

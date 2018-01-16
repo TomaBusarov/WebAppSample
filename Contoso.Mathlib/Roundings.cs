@@ -14,6 +14,10 @@ namespace Contoso.Mathlib
             return (int)(d + 1);
         }
 
+        public static void Dummy()
+        {
+            //TODO: add body
+        }
     }
 
 }

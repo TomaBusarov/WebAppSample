@@ -8,10 +8,10 @@
 // - MSBuild plugin; configure tool with name 'msbuild_2017' (Manage Jenkins -> Global Tool Configuration)
 // - SonarQube Scanner plugin; configure server with name 'SonarQube Server' (Manage Jenkins -> Configure System)
 // - Configure SonarQube Scanner for MSBuild tool with name 'SonarScannerMsBuild' (Manage Jenkins -> Global Tool Configuration)
-// - ? HTTP Request Plugin/Slack
+// - HTTP Request Plugin
 // - Credentials:
 //		SonarQube-github-apikey - authentication token for SonarQube and its GitHub plugin (required permissions: repo, read:public_key)
-//		Slack-webhookIn-key - authentication token to post on Slack
+//		Slack-webhookIn-url - webhook URL to post on Slack
 //		Octopus-apikey - authentication token to push packages and create releases in Octopus
 // Values to change in script:
 //	Path to MsTest.exe
@@ -25,6 +25,8 @@ def onReleaseBranch() {
 
 node() {
 	try { // catch errors in pipeline, so they can be reported to external tools
+
+	sendTeamNotification("Hello from pipeline!")
 
 	stage('Get Source Code') {
 		checkout scm
@@ -188,5 +190,16 @@ $changes
 
 def sendTeamNotification(text)
 {
-	
+	def slackMsgPayload = """{
+		"username" : "Demo Jenkins",
+		"text" : "$text \\n <${env.JOB_DISPLAY_URL}|View Build>"
+	}"""
+
+	withCredentials([string(credentialsId: 'Slack-webhookIn-url', variable: 'slackWebhook')]) {
+		httpRequest contentType: 'APPLICATION_JSON', 
+					httpMode: 'POST', 
+					requestBody: slackMsgPayload, 
+					responseHandle: 'NONE', 
+					url: slackWebhook
+	}
 }

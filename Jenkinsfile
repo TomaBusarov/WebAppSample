@@ -34,7 +34,7 @@ node() {
 	}
 
 	// in-script vars
-	def buildVersion = '1.0.${env.BUILD_ID}'
+	def buildVersion = "1.0.${env.BUILD_ID}"
 	def commonReleaseBuildParams = "/p:Configuration=Release;Platform=AnyCPU"
 	def solutionPath = "$env.WORKSPACE/WebAppSample.sln"
 	def msbuild = tool name:'msbuild_2017', type:'msbuild'
@@ -52,7 +52,7 @@ node() {
 					// add options for Pull Requests
 					sonarPRoptions = "/d:sonar.analysis.mode=preview /d:sonar.github.pullRequest=$env.CHANGE_ID /d:sonar.github.repository=TomaBusarov/WebAppSample /d:sonar.github.oauth=$sonarApiKey"
 				}
-				bat "${sqScannerMsBuildHome}/SonarQube.Scanner.MSBuild.exe begin /k:Fourth.PurchasingAPI /n:\"WebAppSample\" /v:$buildVersion" + 
+				bat "${sqScannerMsBuildHome}/SonarQube.Scanner.MSBuild.exe begin /k:Contoso.WebAppSample /n:\"WebAppSample\" /v:$buildVersion" + 
 					" $sonarPRoptions /d:sonar.host.url=%SONAR_HOST_URL% /d:sonar.cs.vstest.reportsPaths=\"TestResults.*.trx\""
 			}
 		}
@@ -108,7 +108,7 @@ node() {
 					" --package=${webAppPackageBaseName}.${buildVersion}.nupkg" + 
 					" --server=${octopusServerURL} --apiKey=${octoApiKey}"
 				
-				echo 'Create Purchasing API project release'
+				echo 'Create project release'
 				bat "Tools\\Octo.exe create-release --project \"Contoso University Web\" --version ${buildVersion}" + 
 					" --package=${webAppPackageBaseName}:${buildVersion}" + 
 					" --releasenotesfile=\"${releaseNotesMdFile}\"" +

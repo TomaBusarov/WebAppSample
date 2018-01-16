@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4840651E-F9B8-4E17-856E-A1F3BA450F5E}"
 	ProjectSection(SolutionItems) = preProject
 		Jenkinsfile = Jenkinsfile
-		sonar-project.properties = sonar-project.properties
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Mathlib", "Contoso.Mathlib\Contoso.Mathlib.csproj", "{3DB12D80-2957-4D38-AED9-FCBF96029D5B}"

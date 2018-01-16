@@ -8,7 +8,7 @@
 // - Approve methods, used in checkout scm (Manage Jenkins -> In-process Script Approval)
 // - MSBuild plugin; configure tool with name 'msbuild_2017' (Manage Jenkins -> Global Tool Configuration)
 // - SonarQube Scanner plugin; configure server with name 'SonarQube Server' (Manage Jenkins -> Configure System)
-// - Configure SonarQube Scanner for MSBuild tool with name 'SonarQube MSBuild' (Manage Jenkins -> Global Tool Configuration)
+// - Configure SonarQube Scanner for MSBuild tool with name 'SonarScannerMsBuild' (Manage Jenkins -> Global Tool Configuration)
 // - ? xUnit plugin - for importing test results from MsTest format
 // - ? HTTP Request Plugin/Slack
 // - Credentials:
@@ -45,13 +45,13 @@ node() {
 	def commonReleaseBuildParams = "/p:Configuration=Release;Platform=AnyCPU"
 	def solutionPath = "$env.WORKSPACE/WebAppSample.sln"
 	def msbuild = tool name:'msbuild_2017', type:'msbuild'
+	def sqScannerMsBuildHome = tool 'SonarScannerMsBuild'
 
 	stage('Initialize workspace') {
 		echo 'Restore nuget packages for solution'
 		bat "Tools\\nuget.exe restore \"$solutionPath\""
 
 		echo 'Enable SonarQube analysis'
-		def sqScannerMsBuildHome = tool 'SonarScanner4'
 		withSonarQubeEnv('SonarQube Server') {
 			withCredentials([string(credentialsId: 'SonarQube-github-apikey', variable: 'sonarApiKey')]) {
 				def sonarPRoptions = ''
@@ -83,7 +83,6 @@ node() {
 	currentBuild.description = 'Binaries built and tested'
 
 	stage('SonarQube Analysis') {
-		def sqScannerMsBuildHome = tool 'SonarScanner4'
 		withSonarQubeEnv('SonarQube Server') {
 			bat "${sqScannerMsBuildHome}\\SonarQube.Scanner.MSBuild.exe end"
 		}

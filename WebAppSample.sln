@@ -6,10 +6,19 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContosoUniversity", "ContosoUniversity\ContosoUniversity.csproj", "{264E21D6-4024-4A53-B1BE-1CD42F3348FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4840651E-F9B8-4E17-856E-A1F3BA450F5E}"
+	ProjectSection(SolutionItems) = preProject
+		Jenkinsfile = Jenkinsfile
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Mathlib", "Contoso.Mathlib\Contoso.Mathlib.csproj", "{3DB12D80-2957-4D38-AED9-FCBF96029D5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Mathlib.Tests", "Contoso.Mathlib.Tests\Contoso.Mathlib.Tests.csproj", "{2B8CD5B6-C425-4DB7-A01F-C62F5EA9BA65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{40EFA325-82BB-42AC-AED6-DA89F33B31A7}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\nuget.exe = Tools\nuget.exe
+		Tools\Octo.exe = Tools\Octo.exe
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

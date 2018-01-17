@@ -20,7 +20,7 @@
 
 // Helper to distinguish between run for Pull Requests or release (package and publish)
 def onReleaseBranch() {
-	return env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'add-pipeline'
+	return env.BRANCH_NAME == 'master'
 }
 
 node() {
@@ -32,7 +32,7 @@ node() {
 	}
 
 	// in-script vars
-	def buildVersion = "1.2.${env.BUILD_ID}"
+	def buildVersion = "1.3.${env.BUILD_ID}"
 	def commonReleaseBuildParams = "/p:Configuration=Release;Platform=AnyCPU"
 	def solutionPath = "$env.WORKSPACE/WebAppSample.sln"
 	def msbuild = tool name:'msbuild_2017', type:'msbuild'
